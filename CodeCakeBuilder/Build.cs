@@ -11,6 +11,7 @@ using Cake.Core.Diagnostics;
 using Cake.Common.Tools.NuGet.Restore;
 using System;
 using Cake.Common.Tools.NuGet.Push;
+using Cake.Common.Tools.NUnit;
 
 namespace CodeCake
 {
@@ -87,8 +88,23 @@ namespace CodeCake
                    }
                });
 
+            Task("Unit-Testing")
+                .IsDependentOn("Build")
+                .Does(() =>
+                {
+                    Cake.CreateDirectory(releasesDir);
+                    Cake.NUnit("Tests/*.Tests/bin/" + configuration + "/*.Tests.dll", new NUnitSettings()
+                    {
+                        Framework = "v4.5",
+                        OutputFile = releasesDir.Path + "/TestResult.txt",
+                        StopOnError = true
+                    });
+                });
+
+
             Task("Create-NuGet-Packages")
                 .IsDependentOn("Build")
+                .IsDependentOn("Unit - Testing")
                 .Does(() =>
                {
                    Cake.CreateDirectory(releasesDir);
@@ -115,16 +131,17 @@ namespace CodeCake
                 .WithCriteria(() => configuration == "Release")
                 .Does(() =>
                {
-                    // Resolve the API key: if the environment variable is not found
-                    // AND CodeCakeBuilder is running in interactive mode (ie. no -nointeraction parameter),
-                    // then the user is prompted to enter it.
-                    // This is specific to CodeCake (in Code.Cake.dll).
-                    var apiKey = Cake.InteractiveEnvironmentVariable("NUGET_API_KEY");
+                   // Resolve the API key: if the environment variable is not found
+                   // AND CodeCakeBuilder is running in interactive mode (ie. no -nointeraction parameter),
+                   // then the user is prompted to enter it.
+                   // This is specific to CodeCake (in Code.Cake.dll).
+                   //var apiKey = Cake.InteractiveEnvironmentVariable("NUGET_API_KEY");
+                   var apiKey = "c151ac3b-bbf0-478e-b2f2-43793f5250ee";
                    if (string.IsNullOrEmpty(apiKey)) throw new InvalidOperationException("Could not resolve NuGet API key.");
 
                    var settings = new NuGetPushSettings
                    {
-                       Source = "https://www.nuget.org/api/v2/package",
+                       Source = "https://www.myget.org/F/calculatricecakent/api/v2/package",
                        ApiKey = apiKey
                    };
 
