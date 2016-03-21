@@ -104,7 +104,7 @@ namespace CodeCake
 
             Task("Create-NuGet-Packages")
                 .IsDependentOn("Build")
-                .IsDependentOn("Unit - Testing")
+                .IsDependentOn("Unit-Testing")
                 .Does(() =>
                {
                    Cake.CreateDirectory(releasesDir);
