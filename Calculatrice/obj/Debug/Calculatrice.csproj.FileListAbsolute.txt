@@ -5,3 +5,4 @@ c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug
 c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug\nunit.framework.xml
 c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\obj\Debug\Calculatrice.exe
 c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\obj\Debug\Calculatrice.pdb
+c:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\obj\Debug\Calculatrice.csprojResolveAssemblyReference.cache

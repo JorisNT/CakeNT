@@ -1,9 +1,0 @@
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\CalculatriceTests.dll
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\CalculatriceTests.pdb
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\Calculatrice.exe
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\nunit.framework.dll
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\Calculatrice.pdb
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\nunit.framework.xml
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\obj\Debug\Calculatrice.Tests.csprojResolveAssemblyReference.cache
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\obj\Debug\CalculatriceTests.dll
-c:\users\joris\documents\visual studio 2015\Projects\Cake\CalculatriceTests\obj\Debug\CalculatriceTests.pdb

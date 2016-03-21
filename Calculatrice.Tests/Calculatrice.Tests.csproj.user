@@ -3,6 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\packages\NUnit.Runners.2.6.4\tools\nunit.exe</StartProgram>
-    <StartArguments>"C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CalculatriceTests\bin\Debug\CalculatriceTests.dll"</StartArguments>
+    <StartArguments>"Calculatrice.Tests.dll"</StartArguments>
   </PropertyGroup>
 </Project>
