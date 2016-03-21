@@ -1,0 +1,7 @@
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug\Calculatrice.exe.config
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug\Calculatrice.exe
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug\Calculatrice.pdb
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug\nunit.framework.dll
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\bin\Debug\nunit.framework.xml
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\obj\Debug\Calculatrice.exe
+c:\users\joris\documents\visual studio 2015\Projects\Cake\Calculatrice\obj\Debug\Calculatrice.pdb
