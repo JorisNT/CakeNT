@@ -93,7 +93,7 @@ namespace CodeCake
                 .Does(() =>
                 {
                     Cake.CreateDirectory(releasesDir);
-                    Cake.NUnit("Tests/*.Tests/bin/" + configuration + "/*.Tests.dll", new NUnitSettings()
+                    Cake.NUnit("*.Tests/bin/" + configuration + "/*.Tests.dll", new NUnitSettings()
                     {
                         Framework = "v4.5",
                         OutputFile = releasesDir.Path + "/TestResult.txt",
