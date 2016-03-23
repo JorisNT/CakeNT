@@ -14,7 +14,7 @@ namespace Calculatrice.Tests
         public void AdditionTest()
         {
             Calculatrice c = new Calculatrice();
-            Assert.AreEqual(5, c.Addition(8, 3));
+            Assert.AreEqual(5, c.Addition(2, 3));
         }
     }
 }

@@ -1,0 +1,393 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SimpleGitVersion.Cake</name>
+    </assembly>
+    <members>
+        <member name="T:Code.Cake.DNUBuildSettings">
+            <summary>
+            Describes settings for <see cref="M:Code.Cake.DNXSupport.DNUBuild(Cake.Core.ICakeContext,System.Action{Code.Cake.DNUBuildSettings})"/> method.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNUBuildSettings.#ctor">
+            <summary>
+            Initializes a new empty settings.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUBuildSettings.GeneratePackage">
+            <summary>
+            Gets or sets whether the dnu pack must be called (instead of only dnu build).
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUBuildSettings.Quiet">
+            <summary>
+            Gets or sets whether the display will not provide much information (such as references used).
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUBuildSettings.ProjectPaths">
+            <summary>
+            The project paths to pack. When empty, defaults to current directory.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUBuildSettings.Configurations">
+            <summary>
+            The configurations to build. When empty, defaults to "Debug".
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUBuildSettings.TargetFrameworks">
+            <summary>
+            The target frameworks to build. When empty defaults to all the "frameworks" defined in the project.json.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUBuildSettings.OutputDirectory">
+            <summary>
+            Gets or set the output directory. When null, the /bin sub directory is used.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNUBuildSettings.ToString">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <returns>The arguments to the dnu command.</returns>
+        </member>
+        <member name="M:Code.Cake.DNUBuildSettings.ToString(System.Text.StringBuilder)">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <param name="b">The string builder.</param>
+            <returns>The string builder.</returns>
+        </member>
+        <member name="T:Code.Cake.DNUPublishSettings">
+            <summary>
+            Describes settings for <see cref="M:Code.Cake.DNXSupport.DNUPublish(Cake.Core.ICakeContext,System.Action{Code.Cake.DNUPublishSettings})"/> method.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNUPublishSettings.#ctor">
+            <summary>
+            Initializes a new empty settings.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.Quiet">
+            <summary>
+            Gets or sets whether the display will not provide much information (such as references used).
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.ProjectPaths">
+            <summary>
+            The project paths to publish. When empty, defaults to current directory.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.Configurations">
+            <summary>
+            The configurations to build. When empty, defaults to "Debug".
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.TargetFrameworks">
+            <summary>
+            The target frameworks to build. When empty defaults to all the "frameworks" defined in the project.json.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.OutputDirectory">
+            <summary>
+            Gets or set the output directory. When null, the /bin sub directory is used.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.NoSource">
+            <summary>
+            Gets or sets whether the command create or not sources files into the publish directory.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.IIsCommand">
+            <summary>
+            Overrides the command name to use in the web.config for the httpPlatformHandler. The default is web.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.Runtime">
+            <summary>
+            Name or full path of the runtime folder to include, or "active" for current runtime on PATH.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.Native">
+            <summary>
+            Build and include native image. User must provide targeted CoreCLR runtime versions along with this option.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.IncludeSymbols">
+            <summary>
+            Include debug symbols in output bundle.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.WwwRoot">
+            <summary>
+            Name of public folder in the project directory
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNUPublishSettings.WwwRootOut">
+            <summary>
+            Name of public folder in the output, can be used only when the WwwRoot option or webroot in project.json is specified.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNUPublishSettings.ToString">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <returns>The arguments to the dnu command.</returns>
+        </member>
+        <member name="M:Code.Cake.DNUPublishSettings.ToString(System.Text.StringBuilder)">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <param name="b">The string builder.</param>
+            <returns>The string builder.</returns>
+        </member>
+        <member name="T:Code.Cake.DNURestoreSettings">
+            <summary>
+            Describes settings for <see cref="M:Code.Cake.DNXSupport.DNURestore(Cake.Core.ICakeContext,System.Action{Code.Cake.DNURestoreSettings})"/> method.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNURestoreSettings.#ctor">
+            <summary>
+            Initializes a new empty settings.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNURestoreSettings.Quiet">
+            <summary>
+            Gets or sets whether the display will not provide much information (such as HttpRequest/cache information).
+            Defaults to false.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNURestoreSettings.ProjectPaths">
+            <summary>
+            The project paths to restore (can be project.json file path). When empty, defaults to current directory.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNURestoreSettings.ToString">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <returns>The arguments to the dnu command.</returns>
+        </member>
+        <member name="M:Code.Cake.DNURestoreSettings.ToString(System.Text.StringBuilder)">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <param name="b">The string builder.</param>
+            <returns>The string builder.</returns>
+        </member>
+        <member name="T:Code.Cake.DNXRunSettings">
+            <summary>
+            Describes settings for <see cref="M:Code.Cake.DNXSupport.DNXRun(Cake.Core.ICakeContext,System.Action{Code.Cake.DNXRunSettings})"/> method.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNXRunSettings.#ctor">
+            <summary>
+            Initializes a new empty settings.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.Configuration">
+            <summary>
+            Gets or sets the configuration (DEBUG, RELEASE, etc.).
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.Framework">
+            <summary>
+            Gets or sets the framework version to use when running (i.e. dnx451, dnx452, dnx46, ...).
+            Even if this option is supported by DNX only on the clr, any framework name can be set here.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.EstimatedRuntime">
+            <summary>
+            Gets the runtime from the <see cref="P:Code.Cake.DNXRunSettings.Framework"/>.
+            Can be null (if Framework is null), "clr" or "coreclr".
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.Debug">
+            <summary>
+            Waits for the debugger to attach before beginning execution.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.Project">
+            <summary>
+            Gets or sets the path to the project.json file or the application folder. 
+            Defaults to the current folder if not provided.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.AppBase">
+            <summary>
+            Gets or sets the Application base directory path.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRunSettings.Arguments">
+            <summary>
+            Gets or sets the arguments.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNXRunSettings.ToString">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <returns>The arguments to the dnx command.</returns>
+        </member>
+        <member name="M:Code.Cake.DNXRunSettings.ToString(System.Text.StringBuilder)">
+            <summary>
+            Generates the arguments.
+            </summary>
+            <param name="b">The string builder.</param>
+            <returns>The string builder.</returns>
+        </member>
+        <member name="T:Code.Cake.DNXRuntimeInformation">
+            <summary>
+            Captures current DNX runtime information.
+            This is used by <see cref="M:Code.Cake.DNXSupport.DNXRun(Cake.Core.ICakeContext,System.Action{Code.Cake.DNXRunSettings})"/> to switch to another runtime if needed.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNXRuntimeInformation.#ctor(System.String)">
+            <summary>
+            Initializes a new DNX information based on the current dnx path
+            from the ful path to dnx.exe application (can be null if not found: <see cref="P:Code.Cake.DNXRuntimeInformation.IsValid"/> will 
+            be false).
+            </summary>
+            <param name="dnxExeFullPath">Full path of the dnx.exe application.</param>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.IsValid">
+            <summary>
+            Gets whether this runtime information is valid.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.RuntimePath">
+            <summary>
+            Gets the runtime path: the [runtime]/bin folder.
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.FullRuntime">
+            <summary>
+            Gets the full runtime name: like "dnx-clr-win-x86.1.0.0-rc".
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.Version">
+            <summary>
+            Gets the runtime version string (ie. "1.0.0-rc")
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.Architecture">
+            <summary>
+            Gets the architecture (ie. "x86").
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.Runtime">
+            <summary>
+            Gets the runtime (ie. "clr", "coreclr", etc.).
+            </summary>
+        </member>
+        <member name="P:Code.Cake.DNXRuntimeInformation.OperatingSystem">
+            <summary>
+            Gets the OS (ie. "win").
+            </summary>
+        </member>
+        <member name="T:Code.Cake.DNXSupport">
+            <summary>
+            Provides extension methods for Cake context.
+            </summary>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.GetDNXRuntimeInformation(Cake.Core.ICakeContext)">
+            <summary>
+            Gets the DNX runtime information. Never null but <see cref="P:Code.Cake.DNXRuntimeInformation.IsValid"/>
+            may be false.
+            </summary>
+            <param name="context">The cake context.</param>
+            <returns>A runtime information object.</returns>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.RunSuccessfullCmd(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            Runs cmd.exe with a command line and throws an exception if the command exits with a result that is not 0.
+            This is currently private but may be exposed once.
+            </summary>
+            <param name="context">The cake context.</param>
+            <param name="commandLine">The command line to execute.</param>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.RunCmd(Cake.Core.ICakeContext,System.String,System.Action{System.String})">
+            <summary>
+            Runs cmd.exe with a command line and returns the process result value.
+            This is currently private but may be exposed once.
+            </summary>
+            <param name="context">The cake context.</param>
+            <param name="commandLine">The command line to execute.</param>
+            <param name="output">Optional standard output lines collector.</param>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.DNURestore(Cake.Core.ICakeContext,System.Action{Code.Cake.DNURestoreSettings})">
+            <summary>
+            Runs dnu restore.
+            </summary>
+            <param name="context">This cake context.</param>
+            <param name="config">The configuration to use.</param>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.DNUBuild(Cake.Core.ICakeContext,System.Action{Code.Cake.DNUBuildSettings})">
+            <summary>
+            Runs dnu build.
+            </summary>
+            <param name="context">This cake context.</param>
+            <param name="config">The configuration to use.</param>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.DNUPublish(Cake.Core.ICakeContext,System.Action{Code.Cake.DNUPublishSettings})">
+            <summary>
+            Runs dnu publish
+            </summary>
+            <param name="context">This cake context.</param>
+            <param name="config">The configuration to use.</param>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.DNXRun(Cake.Core.ICakeContext,System.Action{Code.Cake.DNXRunSettings})">
+            <summary>
+            Runs a dnx command, automatically switching the runtime (ie. dnvm use) based on 
+            config.<see cref="P:Code.Cake.DNXRunSettings.EstimatedRuntime"/> property if this estimated runtime is 
+            not the current one (see <see cref="M:Code.Cake.DNXSupport.GetDNXRuntimeInformation(Cake.Core.ICakeContext)"/>).
+            </summary>
+            <param name="context">This cake context.</param>
+            <param name="config">The configuration to use.</param>
+        </member>
+        <member name="M:Code.Cake.DNXSupport.LoadDNXRuntimeInformation(Cake.Core.ICakeContext)">
+            <summary>
+            Always create a <see cref="T:Code.Cake.DNXRuntimeInformation"/> object that may be not valid.
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SimpleGitVersion.SimpleGitVersionAliases">
+            <summary>
+            Contains functionality related to SimpleGitVersion.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleGitVersionAliases.GetRepositoryInfo(Cake.Core.ICakeContext,SimpleGitVersion.RepositoryInfoOptions)">
+            <summary>
+            Gets a <see cref="T:SimpleGitVersion.RepositoryInfo"/> immutable object computed from the current head of the Git repository.
+            Use <see cref="M:SimpleGitVersion.SimpleGitVersionAliases.GetSimpleRepositoryInfo(Cake.Core.ICakeContext)"/> to obtain a simpler object.
+            Do NOT use this in a solution with DNX projects since this does not handle differences between project.json without 
+            taking versions properties inot account. Use the <see cref="P:SimpleGitVersion.DNXSolution.RepositoryInfo"/> property instead.
+            </summary>
+            <param name="context">The Cake context.</param>
+            <param name="options">Optional options.</param>
+            <returns>A RepositoryInformation object.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleGitVersionAliases.GetSimpleRepositoryInfo(Cake.Core.ICakeContext)">
+            <summary>
+            Gets a <see cref="T:SimpleGitVersion.SimpleRepositoryInfo"/> immutable object computed from the current head of the Git repository.
+            Do NOT use this in a solution with DNX projects since this does not handle differences between project.json without 
+            taking versions properties inot account. Use the <see cref="P:SimpleGitVersion.DNXSolution.RepositoryInfo"/> property instead.
+            </summary>
+            <param name="context">The Cake context.</param>
+            <returns>A SimpleRepositoryInfo object.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleGitVersionAliases.GetDNXSolution(Cake.Core.ICakeContext,System.Func{SimpleGitVersion.DNXProjectFile,System.Boolean})">
+            <summary>
+            Gets a <see cref="T:SimpleGitVersion.DNXSolution"/> for the current solution.
+            </summary>
+            <param name="context">The Cake context.</param>
+            <param name="projectFilter">Optionally filters returned projects.</param>
+            <returns>A DNXSolution object.</returns>
+        </member>
+        <member name="T:SimpleGitVersionInfoAttribute">
+            <summary>
+            Automatically generated by SimpleGitVersionTask 0.14.2. 
+            </summary>
+        </member>
+    </members>
+</doc>

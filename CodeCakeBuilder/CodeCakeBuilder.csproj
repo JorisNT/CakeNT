@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SimpleGitVersion.Core.0.14.2\Build\SimpleGitVersion.Core.props" Condition="Exists('..\packages\SimpleGitVersion.Core.0.14.2\Build\SimpleGitVersion.Core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +12,8 @@
     <AssemblyName>CodeCakeBuilder</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,6 +47,14 @@
       <HintPath>..\packages\Code.Cake.0.8.0\lib\net45\Code.Cake.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SimpleGitVersion.Cake, Version=0.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleGitVersion.Cake.0.14.2\lib\net45\SimpleGitVersion.Cake.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleGitVersion.Core, Version=0.14.0.0, Culture=neutral, PublicKeyToken=731c291b31fb8d27, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleGitVersion.Core.0.14.2\lib\net45\SimpleGitVersion.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +80,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SimpleGitVersion.Core.0.14.2\Build\SimpleGitVersion.Core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SimpleGitVersion.Core.0.14.2\Build\SimpleGitVersion.Core.props'))" />
+    <Error Condition="!Exists('..\packages\SimpleGitVersionTask.0.14.2\Build\SimpleGitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SimpleGitVersionTask.0.14.2\Build\SimpleGitVersionTask.targets'))" />
+  </Target>
+  <Import Project="..\packages\SimpleGitVersionTask.0.14.2\Build\SimpleGitVersionTask.targets" Condition="Exists('..\packages\SimpleGitVersionTask.0.14.2\Build\SimpleGitVersionTask.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

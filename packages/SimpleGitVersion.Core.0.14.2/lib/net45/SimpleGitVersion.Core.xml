@@ -1,0 +1,1925 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SimpleGitVersion.Core</name>
+    </assembly>
+    <members>
+        <member name="T:SimpleGitVersion.DNXProjectFile">
+            <summary>
+            Simple project.json description.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.ProjectDir">
+            <summary>
+            Gets the project directory.
+            This ends with a <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <value>The project directory.</value>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.ProjectName">
+            <summary>
+            Gets the project name.
+            </summary>
+            <value>The project name.</value>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.ProjectFilePath">
+            <summary>
+            Gets the project.json file path.
+            </summary>
+            <value>The project.json file path.</value>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.RelativeProjectFilePath">
+            <summary>
+            Gets the project.json file path.
+            </summary>
+            <value>The project.json file path.</value>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.Frameworks">
+            <summary>
+            Gets the frameworks.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.SGVVersionInfoFile">
+            <summary>
+            Gets the path to the 'SGVVersionInfo.cs' file in <see cref="P:SimpleGitVersion.DNXProjectFile.ProjectDir"/>.
+            Null if it does not exist.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.DNXProjectFile.TheoreticalSGVVersionInfoFile">
+            <summary>
+            Gets the theoretical path to project SGV version information file: either <see cref="P:SimpleGitVersion.DNXProjectFile.ProjectDir"/>/Properties/SGVVersionInfo.cs
+            or ProjectDir/SGVVersionInfo.cs if Properties directory does not exist.
+            </summary>
+            <value>The theoretical path to SGVVersionInfo.cs.</value>
+        </member>
+        <member name="M:SimpleGitVersion.DNXProjectFile.CreateOrUpdateSGVVersionInfoFile">
+            <summary>
+            Creates or updates the SGVVersionInfo.cs file in this project.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.DNXProjectFile.UpdateProjectJSONFile(System.String)">
+            <summary>
+            Updates the project.json file with the specified version.
+            </summary>
+            <param name="version">The version to inject.</param>
+            <returns>True if the file has actually been modified. False if they are the same or the project file can not be updated.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.DNXProjectFile.RestoreProjectJSONFile">
+            <summary>
+            Restores the project.json and project.lock.json files (and project.lock.json) if <see cref="M:SimpleGitVersion.DNXProjectFile.UpdateProjectJSONFile(System.String)"/>
+            has been called.
+            </summary>
+            <returns>True if the files have been actually restored. False otherwise.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.DNXSolution">
+            <summary>
+            Simple DNX Solution: discovers and handles project.json files below the solution directory.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.#ctor(System.String,SimpleGitVersion.ILogger,System.Func{SimpleGitVersion.DNXProjectFile,System.Boolean})">
+            <summary>
+            Initializes a new <see cref="T:SimpleGitVersion.DNXSolution"/>. 
+            </summary>
+            <param name="path">Path of the directory that contains the project.json file.</param>
+            <param name="logger">Logger to use. Must not be null.</param>
+            <param name="projectFilter">Optional project filter.</param>
+        </member>
+        <member name="P:SimpleGitVersion.DNXSolution.SolutionDir">
+            <summary>
+            Gets the solution directory (where the .git folder is). Null if not found: this CommandContext is not valid.
+            This ends with a <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <value>The solution directory.</value>
+        </member>
+        <member name="P:SimpleGitVersion.DNXSolution.IsValid">
+            <summary>
+            Gets whether this solution is valid: <see cref="P:SimpleGitVersion.DNXSolution.SolutionDir"/> exists (.git folder has been found)
+            and there is no duplicate project name.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.DNXSolution.Logger">
+            <summary>
+            Gets the logger to use.
+            </summary>
+            <value>The logger.</value>
+        </member>
+        <member name="P:SimpleGitVersion.DNXSolution.Projects">
+            <summary>
+            Gets all the DNX projects found in this solution.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.FindFromPath(System.String)">
+            <summary>
+            Gets the <see cref="T:SimpleGitVersion.DNXProjectFile"/> from the project path (or from the path of the project.json file).
+            This serach is case insensitive.
+            </summary>
+            <param name="projectPath">Path of the project directory or project.json file.</param>
+            <returns>The project or null if not found.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.ContainsProject(System.String)">
+            <summary>
+            Simple predicates that looks up for a project by name.
+            Used to filter projects references. This lookup is case sensitive.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SimpleGitVersion.DNXSolution.RepositoryInfo">
+            <summary>
+            Gets the repository information, ignoring any project.json "version" property.
+            </summary>
+            <value>The repository information.</value>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.RestoreProjectFilesFromGitThatDifferOnlyByVersion">
+            <summary>
+            Restores the project.json files that differ only by version from committed content.
+            This can always be called since it uses the comitted content but restores the 
+            local project.json file if and only if it differs only by the version number.
+            </summary>
+            <returns>The number of files that have been restored.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.RestoreProjectFiles">
+            <summary>
+            Restores the project files (and the project.lock.json files) after a 
+            call to <see cref="M:SimpleGitVersion.DNXSolution.UpdateProjectFiles(System.String)"/>.
+            </summary>
+            <returns>The number of files that have been restored.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.UpdateProjectFiles(System.Boolean)">
+            <summary>
+            Updates the project.json files with the version computed from <see cref="P:SimpleGitVersion.DNXSolution.RepositoryInfo"/>).
+            </summary>
+            <param name="useNuGetV2Version">True to use NuGetV2 version, otherwise SemVer version is used.</param>
+            <returns>The number of updated files.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.UpdateProjectFiles(System.String)">
+            <summary>
+            Updates the project.json files with the given version.
+            </summary>
+            <param name="version">The version to set.</param>
+            <returns>The number of updated files.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.DNXSolution.FindDirectoryFrom(System.String,System.String)">
+            <summary>
+            Finds a named directory above or next to the specified <paramref name="start"/>.
+            </summary>
+            <param name="start">Starting directory.</param>
+            <param name="directoryName">Name of the directory.</param>
+            <returns>Null if not found, otherwise the path of the directory.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.JSONVersionFinder.ThisVersion">
+            <summary>
+            Gets this version: null JSON was not valid.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.ProjectFileContent">
+            <summary>
+            Project.json wrapper. 
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ProjectFileContent.OriginalText">
+            <summary>
+            Gets the original text without any CRLF normalization applied.
+            </summary>
+            <value>The original text.</value>
+        </member>
+        <member name="P:SimpleGitVersion.ProjectFileContent.Text">
+            <summary>
+            Gets the normalized text: line ends with <see cref="P:System.Environment.NewLine"/>.
+            </summary>
+            <value>The normalized text.</value>
+        </member>
+        <member name="P:SimpleGitVersion.ProjectFileContent.ErrorMessage">
+            <summary>
+            Gets the error message whenever the project.json has not been parsed correctly.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ProjectFileContent.Version">
+            <summary>
+            Gets the version: null if this is not a valid json, can be the empty string 
+            if the version property does not exist or is empty ("version":""). 
+            </summary>
+            <value>The original version.</value>
+        </member>
+        <member name="M:SimpleGitVersion.ProjectFileContent.EqualsWithoutVersion(SimpleGitVersion.ProjectFileContent)">
+            <summary>
+            Checks whether the two files are equal regardless of the "version: "" property.
+            Line endings must be normalized (or be the same) for this to work correctly.
+            </summary>
+            <param name="other">The other.</param>
+            <returns><c>true</c> if files are the same or differ only by their version, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.EmptyLogger">
+            <summary>
+            Empty object pattern.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.EmptyLogger.Empty">
+            <summary>
+            The empty logger to use.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.PathComparer">
+            <summary>
+            Simple path comparer.
+            Just use the <see cref="F:SimpleGitVersion.PathComparer.Default"/> instance.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.PathComparer.Default">
+            <summary>
+            Gets the default instance to use.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.CIReleaseInfo">
+            <summary>
+            Encapsulates CI release information.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIReleaseInfo.BaseTag">
+            <summary>
+            The base <see cref="T:SimpleGitVersion.ReleaseTagVersion"/> from which <see cref="F:SimpleGitVersion.CIReleaseInfo.BuildVersion"/> is built.
+            It is either the the previous release or the <see cref="F:SimpleGitVersion.ReleaseTagVersion.VeryFirstVersion"/>.
+            Null if and only if CIBuildVersion is null.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIReleaseInfo.Depth">
+            <summary>
+            The greatest number of commits between the current commit and the deepest occurence 
+            of <see cref="F:SimpleGitVersion.CIReleaseInfo.BaseTag"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIReleaseInfo.BuildVersion">
+            <summary>
+            Not null only if we are on a branch that is enabled in <see cref="P:SimpleGitVersion.RepositoryInfoOptions.Branches"/> (either because it is the current branch 
+            or <see cref="P:SimpleGitVersion.RepositoryInfoOptions.StartingBranchName"/> specifies it), the <see cref="P:SimpleGitVersion.RepositoryInfoOptions.StartingCommitSha"/> is null or 
+            empty and there is no <see cref="F:SimpleGitVersion.RepositoryInfo.ValidReleaseTag"/> on the commit.
+            The format is based on <see cref="F:SimpleGitVersion.ReleaseTagFormat.SemVer"/>
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIReleaseInfo.BuildVersionNuGet">
+            <summary>
+            Same as <see cref="F:SimpleGitVersion.CIReleaseInfo.BuildVersion"/> instead that the format is based on <see cref="F:SimpleGitVersion.ReleaseTagFormat.NuGetPackage"/>
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.CIReleaseInfo.CreateNuGetZeroTimed(System.String,System.DateTime)">
+            <summary>
+            Creates the ZeroTimed NuGetV2 version string.
+            </summary>
+            <param name="ciBuildName">The BuildName string (typically "develop").</param>
+            <param name="timeRelease">The utc date time of the release.</param>
+            <returns>A NuGetV2 O.O.O-C version string.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.CIReleaseInfo.CreateSemVerZeroTimed(System.String,System.DateTime,System.String)">
+            <summary>
+            Creates the ZeroTimed SemVer version string. The <paramref name="actualBaseTag"/>, if not null, is appended 
+            as a suffix (Build metadata).
+            </summary>
+            <param name="ciBuildName">The BuildName string (typically "develop").</param>
+            <param name="timeRelease">The utc date time of the release.</param>
+            <param name="actualBaseTag">An optional base release that will be added as build metadata.</param>
+            <returns>A SemVer O.O.O--ci version string.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.IWorkingFolderModifiedFile">
+            <summary>
+            Describes a file that is modified compared to the committed version.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.IWorkingFolderModifiedFile.RepositoryFullPath">
+            <summary>
+            Gets the full path of repository root (the folder that contains the .git folder).
+            This ends with <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <value>The repository full path.</value>
+        </member>
+        <member name="P:SimpleGitVersion.IWorkingFolderModifiedFile.Path">
+            <summary>
+            Gets the local path of the modified file, relative to the <see cref="P:SimpleGitVersion.IWorkingFolderModifiedFile.RepositoryFullPath"/>.
+            </summary>
+            <value>The modified file path.</value>
+        </member>
+        <member name="P:SimpleGitVersion.IWorkingFolderModifiedFile.FullPath">
+            <summary>
+            Gets the full path of the modified file.
+            </summary>
+            <value>The modified file full path.</value>
+        </member>
+        <member name="P:SimpleGitVersion.IWorkingFolderModifiedFile.CommittedContentSize">
+            <summary>
+            Gets the size of the committed content. 
+            </summary>
+            <value>The size of the committed content.</value>
+        </member>
+        <member name="M:SimpleGitVersion.IWorkingFolderModifiedFile.GetCommittedContent">
+            <summary>
+            Gets the content of the committed file. 
+            The stream should be disposed.
+            </summary>
+            <returns>An opened Stream.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.IWorkingFolderModifiedFile.CommittedText">
+            <summary>
+            Gets the content of the committed file.
+            </summary>
+            <value>The committed file content.</value>
+        </member>
+        <member name="T:SimpleGitVersion.PossibleVersionsMode">
+            <summary>
+            Defines which set of possible versions must be used to consider a version tag as a valid one.
+            Default is 'Restricted': Restricted mode prevents a non-patch version to be produced whenever
+            a greater version exists in the repository. 'AllSuccessors' mode considers all valid successors: this can be used
+            on "Long Term Support" branches since this allows a 4.3.0 to be released even if a 5.0.0 version exists. 
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.PossibleVersionsMode.Default">
+            <summary>
+            Defaults to <see cref="F:SimpleGitVersion.PossibleVersionsMode.Restricted"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.PossibleVersionsMode.AllSuccessors">
+            <summary>
+            All possible versions are allowed.
+            This is the default that allows the release of a non-patch version (ie. 2.1.0) even
+            when a greater version exists in the repository (ie. 3.0.0).
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.PossibleVersionsMode.Restricted">
+            <summary>
+            Restricted mode prevents a non-patch version to be produced whenever
+            a greater version exists in the repository.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.SimpleRepositoryInfo">
+            <summary>
+            Immutable object that exposes simplified information by wrapping a more complex <see cref="T:SimpleGitVersion.RepositoryInfo"/>.
+            The <see cref="M:SimpleGitVersion.SimpleRepositoryInfo.LoadFromPath(SimpleGitVersion.ILogger,System.String,System.Action{SimpleGitVersion.ILogger,System.Boolean,SimpleGitVersion.RepositoryInfoOptions})"/> also handles the read of the RepositoryInfo.xml that may exist 
+            at the root of the solution directory (the Repository.xml file creates a <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> that 
+            configures the analysis).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.SGVSemVer">
+            <summary>
+            Gets the semantic version of this SimpleGitVersion.Core.
+            </summary>
+            <value>This semantic version.</value>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleRepositoryInfo.BuildAssemblyVersionAttributesFile(System.String,System.String)">
+            <summary>
+            Builds a standard assembly version attributes file.
+            </summary>
+            <param name="toolName">Name of the tool.</param>
+            <param name="assemblyInformationalVersionInfo">
+            The assembly informational version information.
+            Defaults to <see cref="M:SimpleGitVersion.SimpleRepositoryInfo.FomatStandardAssemblyInformationalVersionInfo(System.String,System.String,System.String)"/>.
+            </param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleRepositoryInfo.FomatStandardAssemblyInformationalVersionInfo(System.String,System.String,System.String)">
+            <summary>
+            Fomats the standard assembly informational version information: "<see cref="P:SimpleGitVersion.SimpleRepositoryInfo.NuGetVersion"/> Sha:... User:..."
+            </summary>
+            <param name="nuGetVersion">The NuGet version.</param>
+            <param name="commitSha">The commit sha.</param>
+            <param name="userName">Name of the user.</param>
+            <returns>Standard informational version.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleRepositoryInfo.FormatAssemblyVersionAttributesFile(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Formats the assembly version attributes file.
+            </summary>
+            <param name="majorMinor">The major.minor: this is used for the AssemblVersion.</param>
+            <param name="fileVersion">The file version (4 numbers between 0 and 65535.</param>
+            <param name="semVer">The semantic version version.</param>
+            <param name="toolName">Name of the tool.</param>
+            <param name="assemblyInformationalVersionInfo">The assembly informational version information.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.Info">
+            <summary>
+            Gets the <see cref="T:SimpleGitVersion.RepositoryInfo"/> onto which this simplified representation is built.
+            Never null.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid">
+            <summary>
+            Gets whether a release can be produced from the current commit point.
+            It is either a release or a CI build (see <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValidRelease"/> and <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValidCIBuild"/>).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.IsValidRelease">
+            <summary>
+            Gets whether this is a valid, normal, release (not a CI build).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.IsValidCIBuild">
+            <summary>
+            Gets whether this is a valid CI build.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.Major">
+            <summary>
+            Gets the major version.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false, it is 0.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.Minor">
+            <summary>
+            Gets the minor version.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false, it is 0.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.Patch">
+            <summary>
+            Gets the patch version.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false, it is 0.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.PreReleaseName">
+            <summary>
+            Gets the standard pre release name among <see cref="P:SimpleGitVersion.ReleaseTagVersion.StandardPreReleaseNames"/>.
+            <see cref="F:System.String.Empty"/> when this is not a pre release version or <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.PreReleaseNumber">
+            <summary>
+            Gets the pre-release number (between 0 and 99).
+            Meaningful only if <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.PreReleaseName"/> is not empty. Always 0 otherwise. 
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.PreReleaseFix">
+            <summary>
+            Gets the the pre-release fix number between 1 and 99. 
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false or if it is not a pre-release fix, it is 0. 
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.MajorMinor">
+            <summary>
+            Gets the "<see cref="P:SimpleGitVersion.SimpleRepositoryInfo.Major"/>.<see cref="P:SimpleGitVersion.SimpleRepositoryInfo.Minor"/>" as a string: this is the component version (the AssemblyVersion).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.MajorMinorPatch">
+            <summary>
+            Gets the "<see cref="P:SimpleGitVersion.SimpleRepositoryInfo.Major"/>.<see cref="P:SimpleGitVersion.SimpleRepositoryInfo.Minor"/>.<see cref="P:SimpleGitVersion.SimpleRepositoryInfo.Patch"/>" as a string.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.FileVersion">
+            <summary>
+            Gets the 'Major.Minor.Build.Revision' windows file version to use.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false, it is '0.0.0.0'.
+            When it is a release the last part (Revision) is even and it is odd for CI builds. 
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.OrderedVersion">
+            <summary>
+            Gets the ordered version.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> it is greater than 0.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.CurrentUserName">
+            <summary>
+            Gets the current user name.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.CommitSha">
+            <summary>
+            Gets the Sha of the current commit.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.CommitDateUtc">
+            <summary>
+            Gets the UTC date and time of the current commit.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.SemVer">
+            <summary>
+            Gets the version in <see cref="F:SimpleGitVersion.ReleaseTagFormat.SemVer"/> format.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false, it contains the error message (the first error line) so that
+            any attempt to use this to actually package something will fail.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.NuGetVersion">
+            <summary>
+            Gets the NuGet version to use.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false, it contains the error message (the first error line) so that
+            any attempt to use this to actually package something will fail.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.SimpleRepositoryInfo.OriginalTagText">
+            <summary>
+            Gets the original tag on the current commit point.
+            When <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.IsValid"/> is false or if there is no tag (ie. we are on a CI build), it is null.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleRepositoryInfo.LoadFromPath(SimpleGitVersion.ILogger,System.String,System.Action{SimpleGitVersion.ILogger,System.Boolean,SimpleGitVersion.RepositoryInfoOptions})">
+            <summary>
+            Creates a new <see cref="T:SimpleGitVersion.SimpleRepositoryInfo"/> based on a path (that can be below the folder with the '.git' sub folder). 
+            </summary>
+            <param name="path">The path to lookup.</param>
+            <param name="logger">Logger that will be used.</param>
+            <param name="optionsChecker">
+            Optional action that accepts the logger, a boolean that is true if a RepositoryInfo.xml has been 
+            found, and the <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> that will be used.
+            </param>
+            <returns>An immutable SimpleRepositoryInfo instance.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.SimpleRepositoryInfo.#ctor(SimpleGitVersion.ILogger,SimpleGitVersion.RepositoryInfo)">
+            <summary>
+            Initializes a new <see cref="T:SimpleGitVersion.SimpleRepositoryInfo"/> based on a (more complex) <see cref="P:SimpleGitVersion.SimpleRepositoryInfo.Info"/>.
+            </summary>
+            <param name="logger">Logger that will be used.</param>
+            <param name="info">The simplified repository information.</param>
+        </member>
+        <member name="T:SimpleGitVersion.ITagCommit">
+            <summary>
+            Describes a commit in the repository with its <see cref="T:SimpleGitVersion.ReleaseTagVersion"/>.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ITagCommit.CommitSha">
+            <summary>
+            Gets this commit Sha.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ITagCommit.ThisTag">
+            <summary>
+            Gets the valid tag directly associated to this <see cref="P:SimpleGitVersion.ITagCommit.CommitSha"/>.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.ILogger">
+            <summary>
+            Simple logger abstraction.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.ILogger.Error(System.String)">
+            <summary>
+            Logs an error.
+            </summary>
+            <param name="msg">Error message.</param>
+        </member>
+        <member name="M:SimpleGitVersion.ILogger.Warn(System.String)">
+            <summary>
+            logs a warning.
+            </summary>
+            <param name="msg">Warning message.</param>
+        </member>
+        <member name="M:SimpleGitVersion.ILogger.Info(System.String)">
+            <summary>
+            Logs an informational message.
+            </summary>
+            <param name="msg">Information message.</param>
+        </member>
+        <member name="M:SimpleGitVersion.ILogger.Trace(System.String)">
+            <summary>
+            Logs a trace.
+            </summary>
+            <param name="msg">Trace message.</param>
+        </member>
+        <member name="T:SimpleGitVersion.IFullTagCommit">
+            <summary>
+            Extends a <see cref="T:SimpleGitVersion.ITagCommit"/> with information related to the commit content.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.IFullTagCommit.ContentSha">
+            <summary>
+            Gets this commit content Sha.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.IFullTagCommit.BestCommit">
+            <summary>
+            Gets the best commit. It is this <see cref="T:SimpleGitVersion.IFullTagCommit"/> if no better version exists on the content.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.IFullTagCommit.GetContentTagCommits(System.Boolean)">
+            <summary>
+            Gets all <see cref="T:SimpleGitVersion.IFullTagCommit"/> with the same content.
+            </summary>
+            <param name="withThis">True to include this commit into the list.</param>
+            <returns>A list of the commits with the same content.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.IFullTagCommit.HasContentTagCommits">
+            <summary>
+            Gets whether the content of this commit is the same as other exitsting tags.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.CommitVersionInfo">
+            <summary>
+            Final object describing a commit. Release information can easily be generated from this.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.CommitSha">
+            <summary>
+            Gets this commit sha.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.ThisTag">
+            <summary>
+            Gets this release tag. Null if no tag is associated to this commit.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.ThisCommit">
+            <summary>
+            Gets this <see cref="T:SimpleGitVersion.ITagCommit"/>. Null if no tag is associated to this commit.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.MaxTag">
+            <summary>
+            Gets the maximum release tag: it can be this tag, this content tag or a previous tag.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.MaxCommit">
+            <summary>
+            Gets the maximmum <see cref="T:SimpleGitVersion.ITagCommit"/>. It can be this commit or any previous commit.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PreviousTag">
+            <summary>
+            Gets the best previous release tag set among the parent commits.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PreviousCommit">
+            <summary>
+            Gets the best previous <see cref="T:SimpleGitVersion.ITagCommit"/> set among the parent commits.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PreviousMaxTag">
+            <summary>
+            Gets the maximum release tag among parents (either explicit tags or tags on content).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PreviousMaxCommit">
+            <summary>
+            Gets the maximum <see cref="T:SimpleGitVersion.ITagCommit"/> among parents (either explicit tags or tags on content).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PreviousMaxCommitDepth">
+            <summary>
+            Gets the number of commits between this commit (longest path) and the <see cref="P:SimpleGitVersion.CommitVersionInfo.PreviousMaxCommit"/>, including this one:
+            this is the build index to use for post-releases.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PossibleVersions">
+            <summary>
+            Gets the possible versions on this commit regardless of the actual <see cref="P:SimpleGitVersion.CommitVersionInfo.ThisTag"/> already set on it.
+            These possible versions are not necessarily valid.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CommitVersionInfo.PossibleVersionsStrict">
+            <summary>
+            Gets the possible versions on this commit in a strict sense: this is a subset 
+            of the <see cref="P:SimpleGitVersion.CommitVersionInfo.PossibleVersions"/>.
+            A possible versions that is not a <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPatch"/> do not appear here 
+            if a greater version exists in the repository.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.CommitVersionInfo.GetBaseVersions">
+            <summary>
+            Returns either { PreviousTag, PreviousMaxTag }, { PreviousTag }, { PreviousMaxTag } or { null }.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleGitVersion.CommitVersionInfo.ToString">
+            <summary>
+            Overridden to describe the content, previous and max previous tags if they exist.
+            </summary>
+            <returns>Detailed string.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.TagCollector">
+            <summary>
+            Discovers existing tags in the repository, resolves them by applying <see cref="F:SimpleGitVersion.ReleaseTagVersion.DefinitionStrength"/>, detects some of the possible inconsistencies
+            and provide a <see cref="M:SimpleGitVersion.TagCollector.GetVersionInfo(LibGit2Sharp.Commit)"/> to retrieve commit information.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.TagCollector.StartingVersionForCSemVer">
+            <summary>
+            Gets the minimal version to consider. When null, the whole repository must be valid in terms of release tags.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.TagCollector.ExistingVersions">
+            <summary>
+            Gets a read only and ordered list of the existing versions in the repository. 
+            If there is no <see cref="P:SimpleGitVersion.TagCollector.StartingVersionForCSemVer"/>, the first version is checked (it must be one of the <see cref="F:SimpleGitVersion.ReleaseTagVersion.FirstPossibleVersions"/>), otherwise
+            this existing versions does not contain any version smaller than StartingVersionForCSemVer.
+            This existing versions must always be compact (ie. no "holes" must exist between them) otherwise an error is added to the collector.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.TagCollector.#ctor(System.Text.StringBuilder,LibGit2Sharp.Repository,System.String,System.Func{LibGit2Sharp.Commit,SimpleGitVersion.ReleaseTagParsingMode},System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IReadOnlyList{System.String}}},System.Boolean)">
+            <summary>
+            Initializes a new <see cref="T:SimpleGitVersion.TagCollector"/>.
+            Errors may be appended to the collector that can be syntaxic errors or multiple different versions applied to the same commit point.
+            </summary>
+            <param name="errors">A collector of errors. One line per error.</param>
+            <param name="repo">The Git repository.</param>
+            <param name="startingVersionForCSemVer">Vesion tags lower than this version will be ignored.</param>
+            <param name="analyseInvalidTagSyntax">
+            Optional function that drives the behavior regarding malformed tags of commits.
+            When null, <see cref="F:SimpleGitVersion.ReleaseTagParsingMode.IgnoreMalformedTag">IgnoreMalformedTag</see> is used for all tags.
+            </param>
+            <param name="OverriddenTags">Optional commits with associated tags that are applied as if they exist in the repository.</param>
+            <param name="checkValidExistingVersions">
+            When true, existing versions are checked: one of the valid first version must exist and exisitng versions
+            must be compact.
+            </param>
+        </member>
+        <member name="T:SimpleGitVersion.CIBuildDescriptor">
+            <summary>
+            Encapsulates CSemVer-CI suffix formatting.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIBuildDescriptor.MaxNuGetV2BuildIndex">
+            <summary>
+            Defines the maximal build index.
+            This is required to be able to pad it with a constant number of '0'.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CIBuildDescriptor.BuildIndex">
+            <summary>
+            Gets or sets the build index. Must be greater or equal to 0.
+            To be valid for NuGetV2, it must not exceed <see cref="F:SimpleGitVersion.CIBuildDescriptor.MaxNuGetV2BuildIndex"/>.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CIBuildDescriptor.BranchName">
+            <summary>
+            Gets or set the branch name to use.
+            When null or empty, this descriptor is not applicable.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CIBuildDescriptor.IsValid">
+            <summary>
+            Gets whether this descriptor can be applied.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.CIBuildDescriptor.IsValidForNuGetV2">
+            <summary>
+            Gets whether this descriptor can be applied for NuGetV2 special name case.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.CIBuildDescriptor.ToString">
+            <summary>
+            Overridden to return "ci-<see cref="P:SimpleGitVersion.CIBuildDescriptor.BranchName"/>.<see cref="P:SimpleGitVersion.CIBuildDescriptor.BuildIndex"/>" when <see cref="P:SimpleGitVersion.CIBuildDescriptor.IsValid"/> is true,
+            the empty string otherwise.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleGitVersion.CIBuildDescriptor.ToStringForNuGetV2">
+            <summary>
+            When <see cref="P:SimpleGitVersion.CIBuildDescriptor.IsValidForNuGetV2"/> is true, returns "<see cref="P:SimpleGitVersion.CIBuildDescriptor.BranchName"/>-<see cref="P:SimpleGitVersion.CIBuildDescriptor.BuildIndex"/>" where 
+            the index is padded with 0, the empty string otherwise.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SimpleGitVersion.ReleaseTagFormat">
+            <summary>
+            Format description for <see cref="M:SimpleGitVersion.ReleaseTagVersion.ToString(SimpleGitVersion.ReleaseTagFormat,SimpleGitVersion.CIBuildDescriptor,System.Boolean)"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.Normalized">
+            <summary>
+            Normalized format is 'v' + <see cref="F:SimpleGitVersion.ReleaseTagFormat.SemVerWithMarker"/>.
+            This is the default.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.SemVer">
+            <summary>
+            Semantic version format.
+            The prerelease name is the standard one (ie. 'prerelease' for any unknown name) and there is no build meata data.
+            This includes <see cref="T:SimpleGitVersion.CIBuildDescriptor"/> if an applicable one is provided.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.SemVerWithMarker">
+            <summary>
+            Semantic version format.
+            The prerelease name is the standard one (ie. 'prerelease' for any unknown name) plus build meata data (+valid, +published or +invalid).
+            This includes <see cref="T:SimpleGitVersion.CIBuildDescriptor"/> if an applicable one is provided.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.FileVersion">
+            <summary>
+            The file version (see https://msdn.microsoft.com/en-us/library/system.diagnostics.fileversioninfo.fileversion.aspx)
+            uses the whole 64 bits: it is the <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/> left shifted by 1 bit with 
+            the less significant bit set to 0 for release and 1 CI builds.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.NugetPackageV2">
+            <summary>
+            NuGet version 2. If the <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsMarkedInvalid"/> the "+invalid" build meta data is added.
+            This includes <see cref="T:SimpleGitVersion.CIBuildDescriptor"/> if an applicable one is provided.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.NuGetPackage">
+            <summary>
+            NuGet format. Currently <see cref="F:SimpleGitVersion.ReleaseTagFormat.NugetPackageV2"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagFormat.Default">
+            <summary>
+            Default is <see cref="F:SimpleGitVersion.ReleaseTagFormat.Normalized"/>.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.CIBranchVersionMode">
+            <summary>
+            Defines the way the current commit on a branch is considered.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIBranchVersionMode.None">
+            <summary>
+            The branch does not generate any version information.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIBranchVersionMode.ZeroTimed">
+            <summary>
+            The version will be a 0.0.0--ci-BranchName-SortableUtcDateTime+PreviousReleaseVersion.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.CIBranchVersionMode.LastReleaseBased">
+            <summary>
+            The version will be based on the PreviousRelease.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.UsefulExtensions">
+            <summary>
+            Miscellaneous extension methods.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.UsefulExtensions.MaxBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Returns the maximal element of the given sequence based on
+            a projection of comparable keys. The sequence MUST NOT 
+            be empty otherwise an <see cref="T:System.InvalidOperationException"/> is thrown.
+            (borrowed from CK.Core.)
+            </summary>
+            <remarks>
+            If more than one element has the maximal projected value, the first
+            one encountered will be returned. This operator uses immediate execution, but
+            only buffers a single result (the current maximal element).
+            </remarks>
+            <typeparam name="TSource">Type of the source sequence.</typeparam>
+            <typeparam name="TKey">Type of the projected element. Must be <see cref="T:System.IComparable`1"/>.</typeparam>
+            <param name="this">Source sequence.</param>
+            <param name="selector">Selector to use to pick the results to compare</param>
+            <returns>The maximal element, according to the projection.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="this"/> or <paramref name="selector"/> is null</exception>
+            <exception cref="T:System.InvalidOperationException"><paramref name="this"/> is empty</exception>       
+        </member>
+        <member name="M:SimpleGitVersion.UsefulExtensions.BinarySearch``2(System.Collections.Generic.IReadOnlyList{``0},System.Int32,System.Int32,``1)">
+            <summary>
+            Binary search implementation that relies on <see cref="T:System.IComparable`1"/> implemented by the <typeparamref name="T"/>.
+            (Borrowed from CK.Core.)
+            </summary>
+            <typeparam name="T">Type of the elements. It must implement <see cref="T:System.IComparable`1"/>.</typeparam>
+            <typeparam name="TValue">Type of the value.</typeparam>
+            <param name="this">This read only list of elements.</param>
+            <param name="startIndex">The starting index in the list.</param>
+            <param name="length">The number of elements to consider in the list.</param>
+            <param name="value">The value to locate.</param>
+            <returns>Same as <see cref="M:System.Array.BinarySearch(System.Array,System.Object)"/>: negative index if not found which is the bitwise complement of (the index of the next element plus 1).</returns>
+        </member>
+        <member name="M:SimpleGitVersion.UsefulExtensions.BinarySearch``2(System.Collections.Generic.IReadOnlyList{``0},``1)">
+            <summary>
+            Binary search implementation that relies on <see cref="T:System.IComparable`1"/> implemented by the <typeparamref name="T"/>.
+            (Borrowed from CK.Core.)
+            </summary>
+            <typeparam name="T">Type of the elements. It must implement <see cref="T:System.IComparable`1"/>.</typeparam>
+            <typeparam name="TValue">Type of the value.</typeparam>
+            <param name="this">This read only list of elements.</param>
+            <param name="value">The value to locate.</param>
+            <returns>Same as <see cref="M:System.Array.BinarySearch(System.Array,System.Object)"/>: negative index if not found which is the bitwise complement of (the index of the next element plus 1).</returns>
+        </member>
+        <member name="T:SimpleGitVersion.GitExtensions">
+            <summary>
+            Git objects related extensions methods.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.GitExtensions.ResolveTarget(LibGit2Sharp.Tag)">
+            <summary>
+            Follows the targets of a Git <see cref="T:LibGit2Sharp.Tag"/>.
+            </summary>
+            <param name="tag">Starting tag.</param>
+            <returns>The tagged object.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.ReleaseTagKind">
+            <summary>
+            Summarizes the kind of release tag.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagKind.None">
+            <summary>
+            Not a release tag.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagKind.Malformed">
+            <summary>
+            The tag looks like a release tag but is syntaxically incorrect.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagKind.OfficialRelease">
+            <summary>
+            This release tag is 'Major.Minor.Patch' only.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagKind.PreRelease">
+            <summary>
+            This release tag is 'Major.Minor.Patch-prerelease[.Number[.Fix]]'.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagKind.MarkedInvalid">
+            <summary>
+            This release tag is +Invalid.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.ReleaseTagKindExtensions">
+            <summary>
+            Implements <see cref="T:SimpleGitVersion.ReleaseTagKind"/> enum extension methods.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagKindExtensions.IsMarkedInvalid(SimpleGitVersion.ReleaseTagKind)">
+            <summary>
+            Returns true if this tag is marked with <see cref="F:SimpleGitVersion.ReleaseTagKind.MarkedInvalid"/>.
+            </summary>
+            <param name="this"></param>
+            <returns>True if MarkedInvalid.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagKindExtensions.ToStringMarker(SimpleGitVersion.ReleaseTagKind,System.Boolean)">
+            <summary>
+            Obtains the marker as a string. <see cref="F:System.String.Empty"/> if this is nor marked.
+            </summary>
+            <param name="this">This <see cref="T:SimpleGitVersion.ReleaseTagKind"/>.</param>
+            <param name="prefixPlus">Optionally removes the '+' build meta separator.</param>
+            <returns>A string with the marker if any.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.ReleaseTagVersion">
+            <summary>
+            Captures [v|V]Major.Minor.Patch[-PreReleaseName.PreReleaseNumber[.PreReleaseFix]] pattern.
+            This is a semantic version, this is the version associated to a commit 
+            in the repository.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.MaxMajor">
+            <summary>
+            The maximum number of major versions.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.MaxMinor">
+            <summary>
+            The maximum number of minor versions for a major one.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.MaxPatch">
+            <summary>
+            The maximum number of patches for a minor one.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNameIdx">
+            <summary>
+            The maximum number of prereleaseis also the index of the "rc" entry in <see cref="P:SimpleGitVersion.ReleaseTagVersion.StandardPreReleaseNames"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNumber">
+            <summary>
+            The maximum number of pre-releases.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseFix">
+            <summary>
+            The maximum number of fixes to a pre-release.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.StandardPreReleaseNames">
+            <summary>
+            Gets the standard <see cref="P:SimpleGitVersion.ReleaseTagVersion.PreReleaseName"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.VeryFirstVersion">
+            <summary>
+            Gets the very first possible version (0.0.0-alpha).
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.FirstPossibleVersions">
+            <summary>
+            Gets the very first possible release versions (0.0.0, 0.1.0 or 1.0.0 or any prereleases of them).
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.VeryLastVersion">
+            <summary>
+            Gets the very last possible version.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.#ctor(System.Int64)">
+            <summary>
+            Initializes a new tag from an ordered version that must be between 0 (invalid tag) and <see cref="F:SimpleGitVersion.ReleaseTagVersion.VeryLastVersion"/>.<see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/>.
+            </summary>
+            <param name="v">The ordered version.</param>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion">
+            <summary>
+            Gets the ordered version number.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersionMajor">
+            <summary>
+            Gets the Major (first, most significant) part of the <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/>: between 0 and 32767.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersionMinor">
+            <summary>
+            Gets the Minor (second) part of the <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/>: between 0 and 65535.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersionBuild">
+            <summary>
+            Gets the Build (third) part of the <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/>: between 0 and 65535.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersionRevision">
+            <summary>
+            Gets the Revision (last, less significant) part of the <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/>: between 0 and 65535.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.Equals(SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Tags are equal it their <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/> are equals.
+            No other members are used for equality and comparison.
+            </summary>
+            <param name="other">Other release tag.</param>
+            <returns>True if they have the same OrderedVersion.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.CompareTo(SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Relies only on <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/>.
+            </summary>
+            <param name="other">Other release tag (can be null).</param>
+            <returns>A signed number indicating the relative values of this instance and <paramref name="other"/>.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.op_Equality(SimpleGitVersion.ReleaseTagVersion,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Implements == operator.
+            </summary>
+            <param name="x">First tag.</param>
+            <param name="y">Second tag.</param>
+            <returns>True if they are equal.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.op_Inequality(SimpleGitVersion.ReleaseTagVersion,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Implements != operator.
+            </summary>
+            <param name="x">First tag.</param>
+            <param name="y">Second tag.</param>
+            <returns>True if they are not equal.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.op_GreaterThan(SimpleGitVersion.ReleaseTagVersion,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Implements &gt; operator.
+            </summary>
+            <param name="x">First tag.</param>
+            <param name="y">Second tag.</param>
+            <returns>True if x is greater than y.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.op_LessThan(SimpleGitVersion.ReleaseTagVersion,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Implements &lt; operator.
+            </summary>
+            <param name="x">First tag.</param>
+            <param name="y">Second tag.</param>
+            <returns>True if x is lower than y.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.op_LessThanOrEqual(SimpleGitVersion.ReleaseTagVersion,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Implements &lt;= operator.
+            </summary>
+            <param name="x">First tag.</param>
+            <param name="y">Second tag.</param>
+            <returns>True if x is lower than or equal to y.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.op_GreaterThanOrEqual(SimpleGitVersion.ReleaseTagVersion,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Implements &gt;= operator.
+            </summary>
+            <param name="x">First tag.</param>
+            <param name="y">Second tag.</param>
+            <returns>True if x is greater than or equal to y.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.Equals(System.Object)">
+            <summary>
+            Tags are equal it their <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/> are equals.
+            No other members are used for equality and comparison.
+            </summary>
+            <param name="obj">Other release tag.</param>
+            <returns>True if obj is a tag that has the same OrderedVersion as this.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.GetHashCode">
+            <summary>
+            Tags are equal it their <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/> are equals.
+            No other members are used for equality and comparison.
+            </summary>
+            <returns>True if they have the same OrderedVersion.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.#ctor(System.String,System.Boolean,System.String)">
+            <summary>
+            Initializes a new invalid tag from a failed parsing.
+            </summary>
+            <param name="tag">The syntaxically invalid tag.</param>
+            <param name="isMalformed">True if it looks like a tag but is actually not one. False if the text does not look like a tag.</param>
+            <param name="errorMessage">Required error message.</param>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.TryParse(System.String,System.Boolean)">
+            <summary>
+            Attempts to parse a string like "4.0.0", "1.0-5-alpha.0", "1.0-5-rc.12.87".
+            Initial 'v' (or 'V') is optional (GitHub convention).
+            Numbers can not start with a 0 (except if it is 0).
+            The pre release name (alpha, beta, gamma, ..., rc) must be any number of a-z (all lower case, no digit nor underscore).
+            The pre release name can be followed by ".0" or a greater number (not greater than <see cref="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNumber"/>). 
+            Returns a ReleaseTagVersion where <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is false if the string is not valid: <see cref="F:SimpleGitVersion.ReleaseTagVersion.ParseErrorMessage"/>
+            gives more information.
+            </summary>
+            <param name="s">String to parse.</param>
+            <param name="analyseInvalidTag">
+            True to analyse an invalid string for a more precise error: 
+            if the tag looks like a release tag, the <see cref="F:SimpleGitVersion.ReleaseTagVersion.ParseErrorMessage"/> will describe the issue.
+            </param>
+            <returns>Resulting version (can be invalid).</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.GetPreReleaseNameIdx(System.String)">
+            <summary>
+            Computes the pre release name index ('alpha' is 0, 'rc' is <see cref="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNameIdx"/>).
+            This is -1 if the pre release name is empty (an empty pre release name defines a release).
+            The lookup into <see cref="P:SimpleGitVersion.ReleaseTagVersion.StandardPreReleaseNames"/> is case sensitive.
+            Any unmatched pre release name is <see cref="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNameIdx"/> - 1 ('prerelease', the last one before 'rc').
+            </summary>
+            <param name="preReleaseName">Pre release name.</param>
+            <returns>Index between -1 (release) and MaxPreReleaseNameIdx.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.TryParse(System.String,SimpleGitVersion.ReleaseTagVersion@)">
+            <summary>
+            Standard TryParse pattern that returns a boolean rather than the resulting <see cref="T:SimpleGitVersion.ReleaseTagVersion"/>. See <see cref="M:SimpleGitVersion.ReleaseTagVersion.TryParse(System.String,System.Boolean)"/>.
+            </summary>
+            <param name="s">String to parse.</param>
+            <param name="v">Resulting version.</param>
+            <returns>True on success, false otherwise.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.ToString">
+            <summary>
+            Gets the string version in <see cref="F:SimpleGitVersion.ReleaseTagFormat.Normalized"/> format.
+            </summary>
+            <returns>Formated string (or <see cref="F:SimpleGitVersion.ReleaseTagVersion.ParseErrorMessage"/> if any).</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.ToStringFileVersion(System.Boolean)">
+            <summary>
+            Gets this version in a <see cref="F:SimpleGitVersion.ReleaseTagFormat.FileVersion"/> format.
+            </summary>
+            <param name="isCIBuild">True to indicate a CI build: the revision part (last part) is odd.</param>
+            <returns>The Major.Minor.Build.Revision number where each part are between 0 and 65535.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.ToString(SimpleGitVersion.ReleaseTagFormat,SimpleGitVersion.CIBuildDescriptor,System.Boolean)">
+            <summary>
+            Gets the string version in the given format.
+            </summary>
+            <param name="f">Format to use.</param>
+            <param name="buildInfo">Not null to generate a post-release version.</param>
+            <param name="usePreReleaseNameFromTag">True to use <see cref="F:SimpleGitVersion.ReleaseTagVersion.PreReleaseNameFromTag"/> instead of standardized <see cref="P:SimpleGitVersion.ReleaseTagVersion.PreReleaseName"/>.</param>
+            <returns>Formated string (or <see cref="F:SimpleGitVersion.ReleaseTagVersion.ParseErrorMessage"/> if any).</returns>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.Major">
+            <summary>
+            When <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is true, necessarily greater or equal to 0.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.Minor">
+            <summary>
+            When <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is true, necessarily greater or equal to 0.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.Patch">
+            <summary>
+            When <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is true, necessarily greater or equal to 0.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.PreReleaseNameFromTag">
+            <summary>
+            When <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is true, necessarily not null: empty string for a release.
+            This is the pre release name directly extracted from the tag. This field does not participate to equality or comparison: 
+            the actual, standardized, pre release name field is <see cref="P:SimpleGitVersion.ReleaseTagVersion.PreReleaseName"/>.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.PreReleaseName">
+            <summary>
+            Gets the standard pre release name among <see cref="P:SimpleGitVersion.ReleaseTagVersion.StandardPreReleaseNames"/>.
+            <see cref="F:System.String.Empty"/> when this is not a pre release version.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsPreRelease">
+            <summary>
+            Gets whether this is a pre release.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.PreReleaseNameIdx">
+            <summary>
+            When <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreRelease"/> is true, the this is between 0 ('alpha') and <see cref="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNameIdx"/> ('rc')
+            otherwise this is -1.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsPreReleaseNameStandard">
+            <summary>
+            Gets whether the <see cref="F:SimpleGitVersion.ReleaseTagVersion.PreReleaseNameFromTag"/> is a standard one (always false when <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreRelease"/> is false).
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.PreReleaseNumber">
+            <summary>
+            Meaningful only if <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreRelease"/> is true (0 when not in prerelease). Between 0 and <see cref="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseNumber"/>. 
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.PreReleasePatch">
+            <summary>
+            When <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreReleasePatch"/>, a number between 1 and <see cref="F:SimpleGitVersion.ReleaseTagVersion.MaxPreReleaseFix"/>, otherwise 0. 
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsPreReleasePatch">
+            <summary>
+            Gets whether this is a pre release patch (<see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreRelease"/> is necessarily true): <see cref="F:SimpleGitVersion.ReleaseTagVersion.PreReleasePatch"/> number is greater than 0.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsPatch">
+            <summary>
+            Gets whether this is a patch: either <see cref="F:SimpleGitVersion.ReleaseTagVersion.Patch"/> or <see cref="F:SimpleGitVersion.ReleaseTagVersion.PreReleasePatch"/> are greater than 0.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.Marker">
+            <summary>
+            Gets the "+invalid" marker.
+            Normalized in lowercase and <see cref="F:System.String.Empty"/> when <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsMarkedInvalid"/> is false.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsValid">
+            <summary>
+            Gets whether this <see cref="T:SimpleGitVersion.ReleaseTagVersion"/> is valid.
+            When false, <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsMalformed"/> may be true if the <see cref="F:SimpleGitVersion.ReleaseTagVersion.OriginalTagText"/> somehow looks like a release tag.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsMarkedInvalid">
+            <summary>
+            Gets whether this <see cref="T:SimpleGitVersion.ReleaseTagVersion"/> is marked with +invalid.
+            This is the strongest form of tag.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.DefinitionStrength">
+            <summary>
+            Gets the strength of this tag: an invalid tag has a strength of 0. For valid tags, the same release tag in 
+            terms of <see cref="P:SimpleGitVersion.ReleaseTagVersion.OrderedVersion"/> can be expressed with: a <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreReleaseNameStandard"/> (stronger than a non standard 'prerelease' one), 
+            and ultimately, a <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsMarkedInvalid"/> wins.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.Kind">
+            <summary>
+            The kind of tag. 
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.ReleaseTagVersion.IsMalformed">
+            <summary>
+            Gets whether this <see cref="T:SimpleGitVersion.ReleaseTagVersion"/> looks like a release tag but is not syntaxically valid: 
+            see <see cref="F:SimpleGitVersion.ReleaseTagVersion.ParseErrorMessage"/> for more information.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.ParseErrorMessage">
+            <summary>
+            An error message that describes the error if <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is false. Null otherwise.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.OriginalTagText">
+            <summary>
+            The original text.
+            Null when this release tag has been built from an ordered version number (new <see cref="M:SimpleGitVersion.ReleaseTagVersion.#ctor(System.Int64)"/>).
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagVersion.EmptyArray">
+            <summary>
+            Gets the empty array singleton.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.Int32,SimpleGitVersion.ReleaseTagKind)">
+            <summary>
+            Full constructor. Used by <see cref="M:SimpleGitVersion.ReleaseTagVersion.TryParse(System.String,System.Boolean)"/> and methods like <see cref="M:SimpleGitVersion.ReleaseTagVersion.GetDirectSuccessors(System.Boolean,SimpleGitVersion.ReleaseTagVersion)"/>.
+            </summary>
+            <param name="tag">Original text version. Can be null: the <see cref="F:SimpleGitVersion.ReleaseTagFormat.Normalized"/> is automatically used to compute <see cref="F:SimpleGitVersion.ReleaseTagVersion.OriginalTagText"/>.</param>
+            <param name="major">Major (between 0 and 99999).</param>
+            <param name="minor">Minor (between 0 and 99999).</param>
+            <param name="patch">Patch (between 0 and 9999).</param>
+            <param name="preReleaseName">Not null (empty for release). Can be any string [a-z]*.</param>
+            <param name="preReleaseNameIdx">The index in StandardPreReleaseNames.</param>
+            <param name="preReleaseNumber">Number between 0 (for release or first prerelease) and 99.</param>
+            <param name="preReleaseFix">Number between 0 (not a fix, first actual fix starts at 1) and 99.</param>
+            <param name="kind">One of the <see cref="T:SimpleGitVersion.ReleaseTagKind"/> value. Must be coherent with the other parameters.</param>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.MarkInvalid">
+            <summary>
+            Creates a clone of this tag, except that it is marked with "+invalid".
+            This tag must be valid (<see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is true), otherwise an <see cref="T:System.InvalidOperationException"/> is thrown.
+            </summary>
+            <returns>The "+valid" tag.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.GetDirectSuccessors(System.Boolean)">
+            <summary>
+            Computes the next possible ordered versions, from the closest one to the biggest possible bump.
+            If <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is false, the list is empty.
+            </summary>
+            <param name="patchesOnly">True to obtain only patches to this version. False to generate the full list of valid successors (up to 43 successors).</param>
+            <returns>Next possible versions.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.IsDirectPredecessor(SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            Computes whether the given version belongs to the set or predecessors.
+            </summary>
+            <param name="previous">Previous version. Can be null.</param>
+            <returns>True if previous is actually a direct predecessor.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.ReleaseTagVersion.GetDirectSuccessors(System.Boolean,SimpleGitVersion.ReleaseTagVersion)">
+            <summary>
+            This static version handles null <paramref name="version"/> (the next versions are always <see cref="F:SimpleGitVersion.ReleaseTagVersion.FirstPossibleVersions"/>).
+            If the version is not valid or it it is <see cref="F:SimpleGitVersion.ReleaseTagVersion.VeryLastVersion"/>, the list is empty.
+            </summary>
+            <param name="version">Any version (can be null).</param>
+            <param name="patchesOnly">True to obtain only patches to the version. False to generate the full list of valid successors (up to 43 successors).</param>
+            <returns>The direct successors.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.RepositoryInfoOptionsBranch">
+            <summary>
+            Describes options related to a Git branch.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptionsBranch.#ctor">
+            <summary>
+            Initializes a new default <see cref="T:SimpleGitVersion.RepositoryInfoOptionsBranch"/> object.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptionsBranch.#ctor(System.Xml.Linq.XElement)">
+            <summary>
+            Initializes a new branch information from a <see cref="T:System.Xml.Linq.XElement"/>.
+            </summary>
+            <param name="e">The xml element.</param>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptionsBranch.ToXml">
+            <summary>
+            Gets this branch as an Xml element.
+            </summary>
+            <returns>The XElement.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptionsBranch.Name">
+            <summary>
+            Gets or sets the name of the branch.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptionsBranch.VersionName">
+            <summary>
+            Gets or sets an optional name that will be used instead of <see cref="P:SimpleGitVersion.RepositoryInfoOptionsBranch.Name"/> in the version.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptionsBranch.CIVersionMode">
+            <summary>
+            Gets or sets the wanted behavior for this branch.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.ReleaseTagParsingMode">
+            <summary>
+            Describes how a tag on a commit point must be parsed. 
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagParsingMode.IgnoreMalformedTag">
+            <summary>
+            The tag is analysed without any attempt to detect whether it is malformed: it must be valid otherwise it is silently ignored.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagParsingMode.RaiseErrorOnMalformedTag">
+            <summary>
+            If the tag is malformed (<see cref="P:SimpleGitVersion.ReleaseTagVersion.IsValid"/> is false and <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsMalformed"/> is true), an error is raised.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.ReleaseTagParsingMode.RaiseErrorOnMalformedTagAndNonStandardPreReleaseName">
+            <summary>
+            Same as <see cref="F:SimpleGitVersion.ReleaseTagParsingMode.RaiseErrorOnMalformedTag"/> with the addition that <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPreReleaseNameStandard"/> must be true.
+            </summary>
+        </member>
+        <member name="T:SimpleGitVersion.RepositoryInfo">
+            <summary>
+            Immutable object that can be obtained by calling <see cref="M:SimpleGitVersion.RepositoryInfo.LoadFromPath(System.String,SimpleGitVersion.RepositoryInfoOptions)"/> 
+            that describes the commit and all the CSemVer information.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.GitSolutionDirectory">
+            <summary>
+            Gets the solution directory: the one that contains the .git folder.
+            Null only if <see cref="F:SimpleGitVersion.RepositoryInfo.RepositoryError"/> is 'No Git repository.'.
+            It ends with the <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.RepositoryError">
+            <summary>
+            Gets the repository level error if any: it is one line of text or null ('No Git repository.' or 'Unitialized Git repository.').
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorLines">
+            <summary>
+            Gets the errors related to the release tags as a list of lines.
+            Null if no errors.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText">
+            <summary>
+            Gets the errors related to the release tags as a text.
+            Null if no errors.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfo.ErrorHeaderText">
+            <summary>
+            Gets a one line error text if <see cref="P:SimpleGitVersion.RepositoryInfo.HasError"/> is true. Null otherwise.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfo.HasError">
+            <summary>
+            Gets a one line error text if <see cref="P:SimpleGitVersion.RepositoryInfo.HasError"/> is true. Null otherwise.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfo.IsDirty">
+            <summary>
+            Gets whether there are non committed files in the working directory.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.IsDirtyExplanations">
+            <summary>
+            Gets detailed explanations about <see cref="P:SimpleGitVersion.RepositoryInfo.IsDirty"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.ValidReleaseTag">
+            <summary>
+            Gets the release tag. If there is error, this is null.
+            It is also null if there is actually no release tag on the current commit.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.ReleaseTagIsNotPossibleError">
+            <summary>
+            Gets whether the error is the fact that the release tag on the current commit point
+            is not one of the <see cref="F:SimpleGitVersion.RepositoryInfo.PossibleVersions"/>. An error that describes this appears 
+            in <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorLines"/> and <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText"/>
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.PreviousRelease">
+            <summary>
+            Null if there is a <see cref="F:SimpleGitVersion.RepositoryInfo.RepositoryError"/> or a <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText"/> that 
+            prevented its computation.
+            Can also be null if there is simply no previous release.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.PreviousMaxRelease">
+            <summary>
+            Null if there is a <see cref="F:SimpleGitVersion.RepositoryInfo.RepositoryError"/> or a <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText"/> that 
+            prevented its computation.
+            Can also be null if there is simply no previous release: the <see cref="F:SimpleGitVersion.RepositoryInfo.PossibleVersions"/> are then based on <see cref="F:SimpleGitVersion.ReleaseTagVersion.FirstPossibleVersions"/>.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.ExistingVersions">
+            <summary>
+            Gets the existing versions in the repository in ascending order.
+            Null if there is a <see cref="F:SimpleGitVersion.RepositoryInfo.RepositoryError"/> or a <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText"/> that 
+            prevented its computation.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.PossibleVersions">
+            <summary>
+            Null if there is a <see cref="F:SimpleGitVersion.RepositoryInfo.RepositoryError"/> or a <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText"/> that 
+            prevented its computation.
+            When empty, this means that there can not be a valid release tag on the current commit point.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.PossibleVersionsStrict">
+            <summary>
+            Gets the possible versions on this commit in a strict sense: this is a subset 
+            of the <see cref="F:SimpleGitVersion.RepositoryInfo.PossibleVersions"/>.
+            A possible versions that is not a <see cref="P:SimpleGitVersion.ReleaseTagVersion.IsPatch"/> do not appear here 
+            if a greater version exists in the repository.
+            Null if there is a <see cref="F:SimpleGitVersion.RepositoryInfo.RepositoryError"/> or a <see cref="F:SimpleGitVersion.RepositoryInfo.ReleaseTagErrorText"/> that 
+            prevented its computation.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.CIRelease">
+            <summary>
+            Gets CI informations if a CI release must be done.
+            Not null only if we are on a branch that is enabled in <see cref="P:SimpleGitVersion.RepositoryInfoOptions.Branches"/> (either 
+            because it is the current branch or <see cref="P:SimpleGitVersion.RepositoryInfoOptions.StartingBranchName"/> specifies it), the <see cref="P:SimpleGitVersion.RepositoryInfoOptions.StartingCommitSha"/> 
+            is null or empty and there is no <see cref="F:SimpleGitVersion.RepositoryInfo.ValidReleaseTag"/> on the commit.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfo.FinalNuGetVersion">
+            <summary>
+            Gets the NuGet version that must be used.
+            Null if for any reason, no version can be generated.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.Options">
+            <summary>
+            Gets the <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> that has been used.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.CommitDateUtc">
+            <summary>
+            The UTC date and time of the commit.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.CommitSha">
+            <summary>
+            The Sha of the commit.
+            </summary>
+        </member>
+        <member name="F:SimpleGitVersion.RepositoryInfo.CurrentUserName">
+            <summary>
+            The current user name.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfo.LoadFromPath(System.String,SimpleGitVersion.RepositoryInfoOptions)">
+            <summary>
+            Creates a new <see cref="T:SimpleGitVersion.RepositoryInfo"/> based on a path (that can be below the folder with the '.git' sub folder). 
+            </summary>
+            <param name="path">The path to lookup.</param>
+            <param name="options">Optional <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/>.</param>
+            <returns>An immutable RepositoryInfo instance. Never null.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfo.LoadFromPath(System.String,System.Func{System.String,SimpleGitVersion.RepositoryInfoOptions})">
+            <summary>
+            Creates a new <see cref="T:SimpleGitVersion.RepositoryInfo"/> based on a path (that can be below the folder with the '.git' sub folder)
+            and a function that can create a <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> from the actual Git repository path. 
+            </summary>
+            <param name="path">The path to lookup.</param>
+            <param name="optionsBuilder">Function that can create a <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> from the Git working directory (the Solution folder).</param>
+            <returns>An immutable RepositoryInfo instance. Never null.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.RepositoryInfoOptions">
+            <summary>
+            Describes options for initializing <see cref="T:SimpleGitVersion.RepositoryInfo"/>.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptions.#ctor">
+            <summary>
+            Initializes a new <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/>.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.StartingCommitSha">
+            <summary>
+            Gets or sets the commit that will be analyzed.
+            When null (the default) or empty, the <see cref="P:SimpleGitVersion.RepositoryInfoOptions.StartingBranchName"/> is used.
+            This property must be used programmatically: it does not appear in the Xml file.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.StartingBranchName">
+            <summary>
+            Gets or sets the branch whose name will be analyzed. Applies only when <see cref="P:SimpleGitVersion.RepositoryInfoOptions.StartingCommitSha"/> is null or empty.
+            When null (the default) or empty, the current head is used.
+            This property must be used programmatically: it does not appear in the Xml file.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.OverriddenTags">
+            <summary>
+            Gets or sets an enumerable of commits' sha with tags. Defaults to null.
+            All commit sha MUST exist in the repository otherwise an error will be added to the error collector.
+            If the key is "head" (instead of a SHA1) the tags are applied on the current head of the repository.
+            These tags are applied as if they exist in the repository.
+            This property must be used programmatically: it does not appear in the Xml file.
+            </summary>
+            <remarks>
+            A dictionary of string to list of sting can be directly assigned to this property.
+            </remarks>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.StartingVersionForCSemVer">
+            <summary>
+            Gets or sets a version from which CSemVer rules are enforced.
+            When set, any version before this one are silently ignored.
+            This is useful to accommodate an existing repository that did not use Simple Git Versioning by easily forgetting the past.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.PossibleVersionsMode">
+            <summary>
+            Gets or sets the set of possible versions that must be used to consider a version tag as a valid one.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.Branches">
+            <summary>
+            Gets or sets branches informations.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreModifiedFiles">
+            <summary>
+            Gets a set of paths for which local modifications are ignored.
+            It is empty by default.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreModifiedFilePredicate">
+            <summary>
+            Gets or sets a filter for modified file: when null, all <see cref="T:SimpleGitVersion.IWorkingFolderModifiedFile"/>
+            are considered modified (as if this predicate always evaluates to false).
+            This hook is called only if the file does not appear in <see cref="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreModifiedFiles"/>.
+            </summary>
+            <value>The file filter.</value>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreModifiedFileFullProcess">
+            <summary>
+            Gets or sets whether all modified files must be processed: when false (the default), as soon as a modified file 
+            is not in the <see cref="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreModifiedFiles"/> and <see cref="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreModifiedFilePredicate"/> returned 
+            false, the process stops.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.RemoteName">
+            <summary>
+            Gets or sets the name of the remote repository that will be considered when
+            working with branches. Defaults to "origin" (can never be null or empty).
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.RepositoryInfoOptions.IgnoreDirtyWorkingFolder">
+            <summary>
+            Gets or sets whether the <see cref="P:SimpleGitVersion.RepositoryInfo.IsDirty"/> is ignored.
+            This should be used only for debugging purposes.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptions.Read(System.String)">
+            <summary>
+            Reads <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> from a xml file.
+            </summary>
+            <param name="existingFilePath">Path to a xml file.</param>
+            <returns>Returns a configured <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/>.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptions.ToXml">
+            <summary>
+            Gets this options as an Xml element.
+            </summary>
+            <returns>The XElement.</returns>
+        </member>
+        <member name="M:SimpleGitVersion.RepositoryInfoOptions.Read(System.Xml.Linq.XElement)">
+            <summary>
+            Reads <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/> from a xml element.
+            </summary>
+            <param name="e">Xml element.</param>
+            <returns>Returns a configured <see cref="T:SimpleGitVersion.RepositoryInfoOptions"/>.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.TagCommit.CommitSha">
+            <summary>
+            Gets this commit Sha.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.TagCommit.ContentSha">
+            <summary>
+            Gets this commit content Sha.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.TagCommit.ThisTag">
+            <summary>
+            Gets the valid tag, if any, directly associated to this <see cref="P:SimpleGitVersion.TagCommit.CommitSha"/>.
+            It is necessarily not null once <see cref="T:SimpleGitVersion.TagCollector"/> exposes it: tags that are invalid are 
+            removed.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.TagCommit.BestCommit">
+            <summary>
+            Gets the best commit. This <see cref="T:SimpleGitVersion.IFullTagCommit"/> if no better version exists on the content.
+            </summary>
+        </member>
+        <member name="P:SimpleGitVersion.TagCommit.BestTag">
+            <summary>
+            Gets <see cref="P:SimpleGitVersion.TagCommit.ThisTag"/> or the best version from the content.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.TagCommit.GetContentTagCommits(System.Boolean)">
+            <summary>
+            Gets all <see cref="T:SimpleGitVersion.IFullTagCommit"/> with the same content.
+            </summary>
+            <param name="withThis">True to include this commit into the list.</param>
+            <returns>A list of the commits with the same content.</returns>
+        </member>
+        <member name="P:SimpleGitVersion.TagCommit.HasContentTagCommits">
+            <summary>
+            Gets whether the content of this commit is the same as other exitsting tags.
+            </summary>
+        </member>
+        <member name="M:SimpleGitVersion.TagCommit.CloseCollect(System.Text.StringBuilder)">
+            <summary>
+            Computes the final release tag: +invalid hides any other version tags.
+            If multiple versions exist on this commit, an error is raised.
+            </summary>
+            <param name="errors">Errors collector.</param>
+            <returns>False it this tag is invalid.</returns>
+        </member>
+        <member name="T:SimpleGitVersion.RepositoryWriter">
+            <summary>
+            WIP
+            </summary>
+        </member>
+        <member name="T:CK.Core.JSONVisitor.Parent">
+            <summary>
+            Describes a parent object: it is the name of a property and its index or the index in a array.
+            </summary>
+        </member>
+        <member name="F:CK.Core.JSONVisitor.Parent.PropertyName">
+            <summary>
+            The name of the property or null if this is an array entry.
+            </summary>
+        </member>
+        <member name="F:CK.Core.JSONVisitor.Parent.Index">
+            <summary>
+            The index in the array or the property index (the count of properties 
+            that appear before this one in the object definition).
+            </summary>
+        </member>
+        <member name="P:CK.Core.JSONVisitor.Parent.IsArrayCell">
+            <summary>
+            Gets whether this is an array cell (ie. <see cref="F:CK.Core.JSONVisitor.Parent.PropertyName"/> is null). 
+            </summary>
+        </member>
+        <member name="M:CK.Core.JSONVisitor.Parent.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new parent object.
+            </summary>
+            <param name="propertyName">Name of the property. Null for an array entry.</param>
+            <param name="index">Index of the property or index in an array.</param>
+        </member>
+        <member name="M:CK.Core.JSONVisitor.Parent.ToString">
+            <summary>
+            Overridden to return either <see cref="F:CK.Core.JSONVisitor.Parent.PropertyName"/> or [<see cref="F:CK.Core.JSONVisitor.Parent.Index"/>].
+            </summary>
+            <returns>Representation of the accessor.</returns>
+        </member>
+        <member name="P:CK.Core.JSONVisitor.Path">
+            <summary>
+            Gets the current path of the visited item.
+            </summary>
+        </member>
+        <member name="T:CK.Core.StringMatcher">
+            <summary>
+            This class supports "Match and Forward" pattern.
+            On a failed match, the <see cref="M:CK.Core.StringMatcher.SetError(System.Object,System.String)"/> method sets the <see cref="P:CK.Core.StringMatcher.ErrorMessage"/>.
+            On a successful match, the <see cref="P:CK.Core.StringMatcher.StartIndex"/> is updated by a call to <see cref="M:CK.Core.StringMatcher.Forward(System.Int32)"/> so that 
+            the <see cref="P:CK.Core.StringMatcher.Head"/> is positioned after the match (and any existing error is cleared).
+            </summary>
+        </member>
+        <member name="M:CK.Core.StringMatcher.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CK.Core.StringMatcher"/> class.
+            </summary>
+            <param name="text">The string to parse.</param>
+            <param name="startIndex">Index where the match must start in <paramref name="text"/>.</param>
+        </member>
+        <member name="M:CK.Core.StringMatcher.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CK.Core.StringMatcher"/> class on a substring.
+            </summary>
+            <param name="text">The string to parse.</param>
+            <param name="startIndex">
+            Index where the match must start in <paramref name="text"/>.
+            </param>
+            <param name="length">
+            Number of characters to consider in the string.
+            If <paramref name="startIndex"/> + length is greater than the length of the string, an <see cref="T:System.ArgumentException"/> is thrown.
+            </param>
+        </member>
+        <member name="P:CK.Core.StringMatcher.Text">
+            <summary>
+            Gets the whole text.
+            </summary>
+            <value>The text.</value>
+        </member>
+        <member name="P:CK.Core.StringMatcher.StartIndex">
+            <summary>
+            Gets the current start index: this is incremented by <see cref="M:CK.Core.StringMatcher.Forward(System.Int32)"/>.
+            </summary>
+            <value>The current start index.</value>
+        </member>
+        <member name="P:CK.Core.StringMatcher.Head">
+            <summary>
+            Gets the current head: this is the character in <see cref="P:CK.Core.StringMatcher.Text"/> at index <see cref="P:CK.Core.StringMatcher.StartIndex"/>.
+            </summary>
+            <value>The head.</value>
+        </member>
+        <member name="P:CK.Core.StringMatcher.Length">
+            <summary>
+            Gets the current length available.
+            </summary>
+            <value>The length.</value>
+        </member>
+        <member name="P:CK.Core.StringMatcher.IsEnd">
+            <summary>
+            Gets whether this matcher is at the end of the text to match.
+            </summary>
+            <value><c>true</c> on end; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:CK.Core.StringMatcher.IsError">
+            <summary>
+            Gets whether an error has been set.
+            </summary>
+            <value><c>true</c> on error; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:CK.Core.StringMatcher.ErrorMessage">
+            <summary>
+            Gets the error message if any.
+            </summary>
+            <value>The error message. Null when no error.</value>
+        </member>
+        <member name="M:CK.Core.StringMatcher.SetError(System.Object,System.String)">
+            <summary>
+            Sets an error. The message starts with the caller's method name.
+            </summary>
+            <param name="expectedMessage">
+            Optional object. Its <see cref="M:System.Object.ToString"/> will be used to generate an "expected '...'" message.
+            </param>
+            <param name="callerName">Name of the caller (automatically injected by the compiler).</param>
+            <returns>Always false to use it as the return statement in a match method.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.SetSuccess">
+            <summary>
+            Clears any error and returns true. 
+            </summary>
+            <returns>Always true to use it as the return statement in a match method.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.BackwardSetError(System.Int32,System.Object,System.String)">
+            <summary>
+            Moves back the head at a previously index and sets an error. 
+            The message starts with the caller's method name.
+            </summary>
+            <param name="savedStartIndex">Index to reset.</param>
+            <param name="expectedMessage">
+            Optional object. Its <see cref="M:System.Object.ToString"/> will be used to generate an "expected '...'" message.
+            </param>
+            <param name="callerName">Name of the caller (automatically injected by the compiler).</param>
+            <returns>Always false to use it as the return statement in a match method.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.UncheckedMove(System.Int32)">
+            <summary>
+            Moves the head without any check and returns always true: typically called by 
+            successful TryMatch methods.
+            </summary>
+            <param name="delta">Number of characters.</param>
+            <returns>Always <c>true</c>.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.Forward(System.Int32)">
+            <summary>
+            Increments the <see cref="P:CK.Core.StringMatcher.StartIndex"/> (and decrements <see cref="P:CK.Core.StringMatcher.Length"/>) with the 
+            specified character count and clears any existing error.
+            </summary>
+            <param name="charCount">The successfully matched character count. 
+            Must be positive and should not move head past the end of the substring.</param>
+            <returns>Always true to use it as the return statement in a match method.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.MatchChar(System.Char)">
+            <summary>
+            Matches an exact single character. 
+            If match fails, <see cref="M:CK.Core.StringMatcher.SetError(System.Object,System.String)"/> is called.
+            </summary>
+            <param name="c">The character that must match.</param>
+            <returns>True on success, false if the match failed.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.TryMatchChar(System.Char)">
+            <summary>
+            Attempts to match an exact single character. 
+            </summary>
+            <param name="c">The character that must match.</param>
+            <returns>True on success, false if the match failed.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.TryMatchString(System.String,System.StringComparison)">
+            <summary>
+            Matches a string without setting an error if match fails.
+            </summary>
+            <param name="s">The string that must match. Can not be null nor empty.</param>
+            <param name="comparisonType">Specifies the culture, case, and sort rules.</param>
+            <returns>True on success, false if the match failed.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.MatchString(System.String,System.StringComparison)">
+            <summary>
+            Matches a string.
+            </summary>
+            <param name="s">The string that must match. Can not be null nor empty.</param>
+            <param name="comparisonType">Specifies the culture, case, and sort rules.</param>
+            <returns>True on success, false if the match failed.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.MatchWhiteSpaces(System.Int32)">
+            <summary>
+            Matches a sequence of white spaces.
+            </summary>
+            <param name="minCount">Minimal number of white spaces to match.</param>
+            <returns>True on success, false if the match failed.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.TryMatchDoubleValue">
+            <summary>
+            Matches a double without getting its value nor setting an error if match fails.
+            </summary>
+            <returns><c>true</c> when matched, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.TryMatchJSONQuotedString(System.String@,System.Boolean)">
+            <summary>
+            Matches a quoted string.
+            </summary>
+            <param name="content">Extracted content.</param>
+            <param name="allowNull">True to allow 'null'.</param>
+            <returns><c>true</c> when matched, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:CK.Core.StringMatcher.TryMatchJSONQuotedString(System.Boolean)">
+            <summary>
+            Matches a quoted string without extracting its content.
+            </summary>
+            <param name="allowNull">True to allow 'null'.</param>
+            <returns><c>true</c> when matched, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:SimpleGitVersionInfoAttribute">
+            <summary>
+            Automatically generated by SimpleGitVersionTask 0.14.2. 
+            </summary>
+        </member>
+    </members>
+</doc>

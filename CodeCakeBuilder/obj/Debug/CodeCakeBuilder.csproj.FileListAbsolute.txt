@@ -12,3 +12,10 @@ c:\users\joris\documents\visual studio 2015\Projects\Cake\CodeCakeBuilder\bin\De
 c:\users\joris\documents\visual studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\Code.Cake.xml
 c:\users\joris\documents\visual studio 2015\Projects\Cake\CodeCakeBuilder\obj\Debug\CodeCakeBuilder.exe
 c:\users\joris\documents\visual studio 2015\Projects\Cake\CodeCakeBuilder\obj\Debug\CodeCakeBuilder.pdb
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\NativeBinaries\amd64\git2-e0902fb.dll
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\NativeBinaries\x86\git2-e0902fb.dll
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\SimpleGitVersion.Cake.dll
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\SimpleGitVersion.Core.dll
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\SimpleGitVersion.Cake.xml
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\SimpleGitVersion.Core.pdb
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\CodeCakeBuilder\bin\Debug\SimpleGitVersion.Core.xml

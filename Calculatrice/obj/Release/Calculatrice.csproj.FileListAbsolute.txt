@@ -1,0 +1,8 @@
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\bin\Release\Calculatrice.exe.config
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\bin\Release\Calculatrice.exe
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\bin\Release\Calculatrice.pdb
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\bin\Release\nunit.framework.dll
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\bin\Release\nunit.framework.xml
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\obj\Release\Calculatrice.csprojResolveAssemblyReference.cache
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\obj\Release\Calculatrice.exe
+C:\Users\Joris\Documents\Visual Studio 2015\Projects\Cake\Calculatrice\obj\Release\Calculatrice.pdb

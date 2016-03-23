@@ -12,6 +12,7 @@ using Cake.Common.Tools.NuGet.Restore;
 using System;
 using Cake.Common.Tools.NuGet.Push;
 using Cake.Common.Tools.NUnit;
+using SimpleGitVersion;
 
 namespace CodeCake
 {
@@ -37,6 +38,23 @@ namespace CodeCake
             // Here, we name it "Releases" (default , it could be "Artefacts", "Publish" or anything else, 
             // but "Releases" is by default ignored in https://github.com/github/gitignore/blob/master/VisualStudio.gitignore.
             var releasesDir = Cake.Directory("CodeCakeBuilder/Releases");
+            SimpleRepositoryInfo gitInfo = null;
+
+            Task("Check-Repository")
+                .Does(() =>
+                {
+                    gitInfo = Cake.GetSimpleRepositoryInfo();
+                    if (!gitInfo.IsValid)
+                    {
+                        configuration = "Debug";
+                        Cake.Warning("Repository is not ready to be published. Setting configuration to {0}.", configuration);
+                    }
+                    else
+                    {
+                        configuration = gitInfo.IsValidRelease && gitInfo.PreReleaseName.Length == 0 ? "Release" : "Debug";
+                        Cake.Information("Publishing {0} in {1}.", gitInfo.SemVer, configuration);
+                    }
+                });
 
             Task("Clean")
                 .Does(() =>
